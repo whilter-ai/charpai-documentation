@@ -1,11 +1,11 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme":"mint",
-  "name": "Mint Starter Kit",
+  "name": "Whilter AI",
   "colors": {
-    "primary": "#e441fd",
-    "light": "#e56ff7",
-    "dark": "#a206ba"
+    "primary": "#000000",
+    "light": "#ffffff",
+    "dark": "#000000"
   },
   "favicon": "/favicon.ico",
   "styling": {
@@ -13,9 +13,6 @@
   },
   "appearance": {
     "strict": false
-  },
-  "background": {
-    "decoration": "gradient"
   },
   "navigation": {
     "tabs": [
@@ -102,9 +99,9 @@
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "linkedin": "https://linkedin.com/company/whilter",
+      "instagram": "https://www.instagram.com/whilter.ai/",
+      "website": "https://whilter.ai"
     }
   }
 }
