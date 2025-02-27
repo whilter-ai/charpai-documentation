@@ -23,6 +23,7 @@
             "group": "Get Started",
             "pages": [
               "introduction",
+              "quickstart",
               "api-overview",
               "api-authentication-flow"
             ]
