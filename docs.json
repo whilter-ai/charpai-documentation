@@ -23,7 +23,8 @@
             "group": "Get Started",
             "pages": [
               "introduction",
-              "api-overview"
+              "api-overview",
+              "api-authentication-flow"
             ]
           }
         ]
