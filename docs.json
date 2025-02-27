@@ -24,8 +24,8 @@
             "pages": [
               "introduction",
               "quickstart",
-              "api-overview",
-              "api-authentication-flow"
+              "api_overview",
+              "api_authentication_flow"
             ]
           }
         ]
