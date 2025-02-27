@@ -1,0 +1,117 @@
+---
+title: API Overview
+---
+
+The Charp.ai platform provides a structured API set for vendors to manage brands, campaigns, and related tools. This section outlines the primary API categories and their core functionalities.
+
+## API Structure
+
+Our API ecosystem is organized into five main categories, each serving a specific purpose in the vendor workflow:
+
+```mermaid
+---
+config:
+  layout: fixed
+---
+flowchart TD
+    A["Vendor"] --> n1["has"]
+    A --> n2["manages"]
+    A --> n3["uses"]
+    n1 --> n5["Brand"]
+    n2 --> n6["Authentication"]
+    n3 --> n7["Tools"]
+    n5 --> n8["Use"]
+    n8 --> n9["Campaign"]
+    n9 --> n10["Ingests"]
+    n10 --> n11["Data"]
+    n1@{ shape: text}
+    n2@{ shape: text}
+    n3@{ shape: text}
+    n5@{ shape: rounded}
+    n6@{ shape: rounded}
+    n7@{ shape: rounded}
+    n8@{ shape: text}
+    n9@{ shape: rounded}
+    n10@{ shape: text}
+    n11@{ shape: rounded}
+
+```
+
+## Available APIs
+
+<AccordionGroup>
+  <Accordion title="Vendor API" icon="building">
+    <p>The Vendor API manages vendor accounts and details.</p>
+    <ul>
+      {    /* <li>CRUD operations for managing vendors (primarily for internal use)</li> */}
+      <li>Vendors can view their details and update minor information</li>
+      <li>When a vendor is created, they receive:</li>
+        <ul>
+          <li>Client ID & Secret Key (for authentication)</li>
+          <li>Plan details (Free, Standard, Enterprise)</li>
+          <li>Account limits & credit system (if applicable)</li>
+        </ul>
+    </ul>
+  </Accordion>
+  
+  <Accordion title="Authentication API" icon="key">
+    <p>The Authentication API handles secure access to the platform.</p>
+    <ul>
+      <li>Standard OAuth2-based authentication</li>
+      <li>Vendors can generate an access token using their Client ID and Secret</li>
+      <li>This token is required to access Campaign and Tools APIs</li>
+    </ul>
+  </Accordion>
+  
+  <Accordion title="Brand API" icon="tag">
+    <p>The Brand API enables management of brand entities.</p>
+    <ul>
+      <li>Vendors manage brands (companies they handle customers for)</li>
+      <li>Provides CRUD operations for brand management</li>
+    </ul>
+  </Accordion>
+  
+  <Accordion title="Campaign API" icon="bullhorn">
+    <p>The Campaign API facilitates campaign creation and management.</p>
+    <ul>
+      <li>Vendors create and manage campaigns for a specific brand</li>
+      <li>Campaign operations include:</li>
+        <ul>
+          <li>Data Ingestion (uploading and processing campaign data)</li>
+          <li>Callback & Egress API (for data delivery)</li>
+          <li>Start/Stop Campaign (control campaign execution)</li>
+          <li>Campaign Scheduling (set time slots for execution)</li>
+          <li>Campaign Insights (fetch campaign performance data)</li>
+        </ul>
+    </ul>
+  </Accordion>
+  
+  <Accordion title="Tools API" icon="toolbox">
+    <p>The Tools API provides specialized utilities for campaign enhancement.</p>
+    <ul>
+      <li>Provides additional tools for vendors to enhance campaign execution</li>
+      <li>APIs for data transformation, media processing, and analytics</li>
+      <li>Includes functionality for TTS, voice cloning, lip sync, and face swap</li>
+    </ul>
+  </Accordion>
+</AccordionGroup>
+
+## API Access by Plan
+
+Different vendor plans provide varying levels of access to our API ecosystem:
+
+<CardGroup cols={3}>
+  <Card title="Free" icon="leaf">
+    <p>Basic access to Brand and Campaign APIs with limited requests</p>
+  </Card>
+  <Card title="Standard" icon="star">
+    <p>Full access to Brand, Campaign, and basic Tools APIs</p>
+  </Card>
+  <Card title="Enterprise" icon="building">
+    <p>Unlimited access to all APIs with premium support</p>
+  </Card>
+</CardGroup>
+
+## Next Steps
+
+Proceed to the [API Authentication Flow](/api-authentication-flow) section to learn how to authenticate and start using our APIs.

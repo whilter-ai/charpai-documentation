@@ -1,0 +1,129 @@
+---
+title: API Authentication Flow
+---
+
+Our API platform uses OAuth 2.0 for secure authentication. This section outlines the authentication flow from vendor onboarding to API access.
+
+## Authentication Process
+
+The authentication process consists of three main steps:
+
+```mermaid
+sequenceDiagram
+    participant Vendor
+    participant Auth Service
+    participant API Endpoints
+    
+    Note over Vendor,Auth Service: Step 1: Onboarding
+    Vendor->>Auth Service: Register (done internally)
+    Auth Service->>Vendor: Provide Client ID & Secret Key
+    
+    Note over Vendor,Auth Service: Step 2: Token Retrieval
+    Vendor->>Auth Service: POST /auth/token (with Client ID & Secret)
+    Auth Service->>Vendor: Return Access Token
+    
+    Note over Vendor,API Endpoints: Step 3: API Access
+    Vendor->>API Endpoints: Request with Authorization Header
+    API Endpoints->>Vendor: Response
+```
+
+## Detailed Authentication Steps
+
+<Steps>
+  <Step title="Vendor Onboarding & API Credentials">
+    <ul>
+      <li>A vendor is registered internally in the Charp.ai system</li>
+      <li>The system provides the vendor with a unique Client ID & Secret Key</li>
+      <li>Vendor account is assigned a plan (Free, Standard, Enterprise)</li>
+    </ul>
+    
+    <Info>
+      These credentials should be securely stored as they will be required for all API authentication.
+    </Info>
+  </Step>
+  
+  <Step title="Authentication & Token Retrieval">
+    <ul>
+      <li>Vendors use their Client ID & Secret to request an access token</li>
+      <li>The request is sent to the <code>/auth/token</code> endpoint</li>
+      <li>Upon successful authentication, an access token is returned</li>
+    </ul>
+    
+    ```bash Request
+    curl -X POST https://api.charp.ai/auth/token \
+      -H "Content-Type: application/json" \
+      -d '{
+        "client_id": "your_client_id",
+        "client_secret": "your_client_secret"
+      }'
+    ```
+
+    ```json Response
+    {
+      "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+      "token_type": "Bearer",
+      "expires_in": 3600,
+      "refresh_token": "def50200..."
+    }
+    ```
+  </Step>
+  
+  <Step title="Accessing APIs">
+    <ul>
+      <li>The access token is included in all API requests via the Authorization header</li>
+      <li>The token grants access to Brand, Campaign, and Tools APIs based on the vendor's plan</li>
+      <li>Token validity is checked for each request</li>
+    </ul>
+    
+    ```bash Example API Request
+    curl -X GET https://api.charp.ai/brands \
+      -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+    ```
+    
+    <Warning>
+      Access tokens expire after the time specified in <code>expires_in</code> (typically 1 hour). Use the refresh token to obtain a new access token when needed.
+    </Warning>
+  </Step>
+</Steps>
+
+## Token Refresh
+
+When an access token expires, you can use the refresh token to obtain a new one without requiring the client credentials again:
+
+```bash Refresh Token Request
+curl -X POST https://api.charp.ai/auth/refresh \
+  -H "Content-Type: application/json" \
+  -d '{
+    "refresh_token": "def50200..."
+  }'
+```
+
+```json Response
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "token_type": "Bearer",
+  "expires_in": 3600,
+  "refresh_token": "ghi60300..."
+}
+```
+
+## Security Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Store Credentials Securely" icon="shield-halved">
+    Never hardcode credentials in client-side code or version control systems.
+  </Card>
+  <Card title="Implement Token Rotation" icon="rotate">
+    Regularly refresh tokens and implement proper token lifecycle management.
+  </Card>
+  <Card title="Use HTTPS" icon="lock">
+    Always use HTTPS for all API communication to ensure data encryption.
+  </Card>
+  <Card title="Validate Responses" icon="check-double">
+    Always validate API responses and implement proper error handling.
+  </Card>
+</CardGroup>
+
+## Next Steps
+
+Now that you understand the authentication flow, proceed to explore the specific [API Endpoints](/api-endpoints) available for your integration.
