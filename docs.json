@@ -33,11 +33,29 @@
             "pages": ["api-reference/introduction"]
           },
           {
-            "group": "Endpoint Examples",
+            "group": "Vendor API",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete"
+              "api-reference/vendor-api/get-vendor-details",
+              "api-reference/vendor-api/create-vendor",
+              "api-reference/vendor-api/update-vendor-plan",
+              "api-reference/vendor-api/update-vendor"
+
+            ]
+          },
+          {
+            "group": "Authentication API",
+            "pages": [
+              "api-reference/authentication-api/get-access-token",
+              "api-reference/authentication-api/refresh-access-token"
+            ]
+          },
+          {
+            "group": "Brand API",
+            "pages": [
+              "api-reference/brand-api/get-brand-details",
+              "api-reference/brand-api/create-brand",
+              "api-reference/brand-api/delete-brand",
+              "api-reference/brand-api/update-brand-info"
             ]
           }
         ]
