@@ -21,10 +21,7 @@
         "groups": [
           {
             "group": "Get Started",
-            "pages": [
-              "introduction",
-              "api_overview"
-            ]
+            "pages": ["introduction", "api_overview"]
           }
         ]
       },
@@ -33,8 +30,14 @@
         "groups": [
           {
             "group": "API Documentation",
+            "pages": ["api-reference/introduction"]
+          },
+          {
+            "group": "Endpoint Examples",
             "pages": [
-              "api-reference/introduction"
+              "api-reference/endpoint/get",
+              "api-reference/endpoint/create",
+              "api-reference/endpoint/delete"
             ]
           }
         ]
