@@ -1679,7 +1679,7 @@
             "type": "string",
             "description": "Error message"
           }
-        },
+        },  
         "required": ["status_code", "message"]
       }
     },

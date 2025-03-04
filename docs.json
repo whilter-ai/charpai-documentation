@@ -57,6 +57,18 @@
               "api-reference/brand-api/delete-brand",
               "api-reference/brand-api/update-brand-info"
             ]
+          },
+          {
+            "group": "Campaign API",
+            "pages": [
+              "api-reference/campaign-api/get-campaign-details",
+              "api-reference/campaign-api/create-campaign",
+              "api-reference/campaign-api/start-campaign",
+              "api-reference/campaign-api/stop-campaign",
+              "api-reference/campaign-api/get-campaign-insights",
+              "api-reference/campaign-api/set-campaign-schedule",
+              "api-reference/campaign-api/ingest-data"
+            ]
           }
         ]
       }
