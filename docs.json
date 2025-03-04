@@ -69,6 +69,20 @@
               "api-reference/campaign-api/set-campaign-schedule",
               "api-reference/campaign-api/ingest-data"
             ]
+          },
+          {
+            "group": "Tools",
+            "pages": [
+              "api-reference/tools/generate-tts",
+              "api-reference/tools/bulk-generate-tts",
+              "api-reference/tools/get-generated-tts",
+              "api-reference/tools/generate-voice-clone",
+              "api-reference/tools/get-generated-voice-clone",
+              "api-reference/tools/generate-lip-sync",
+              "api-reference/tools/get-generated-lip-sync",
+              "api-reference/tools/generate-face-swap",
+              "api-reference/tools/get-generated-face-swap"
+            ]
           }
         ]
       }
