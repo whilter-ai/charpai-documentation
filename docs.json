@@ -83,6 +83,13 @@
               "api-reference/tools/generate-face-swap",
               "api-reference/tools/get-generated-face-swap"
             ]
+          },
+          {
+            "group": "Virtual Tryon Apparel API",
+            "pages": [
+              "api-reference/virtual-tryon-api/tryon-request",
+              "api-reference/virtual-tryon-api/get-tryon-status"
+            ]
           }
         ]
       }
