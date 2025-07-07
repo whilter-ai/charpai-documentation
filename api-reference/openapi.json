@@ -1223,6 +1223,72 @@
           }
         }
       }
+    },
+    "/vton/request": {
+      "post": {
+        "description": "Create Virtual Tryon Request",
+        "requestBody": {
+          "description": "Virtual Tryon request parameters",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VirtualTryonRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Virtual Tryon request created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VirtualRequestResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vton/status/{requestId}": {
+      "get": {
+        "description": "Get Virtual Tryon Status",
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "description": "Unique identifier of the Virtual Tryon request",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Virtual Tryon status retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VirtualTryonResponse" 
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1540,6 +1606,16 @@
         },
         "required": ["task_id"]
       },
+      "VirtualRequestResponse": {
+        "type": "object",
+        "properties": {
+          "request-id": {
+            "type": "string",
+            "description": "Unique identifier of the generation task"
+          }
+        },
+        "required": ["request-id"]
+      },
       "BulkTaskResponse": {
         "type": "object",
         "properties": {
@@ -1640,6 +1716,82 @@
           }
         },
         "required": ["base_video_url", "model", "audio_url"]
+      },
+      "VirtualTryonRequest": {
+        "type": "object",
+        "properties": {
+          "user-id": {
+            "type": "string",
+            "description": "User phone number or ID"
+          },
+          "client-id": {
+            "type": "string",
+            "description": "Client ID provided during vendor onboarding"
+          },
+          "usecase-id": {
+            "type": "string",
+            "description": "Usecase ID provided during vendor onboarding"
+          },
+          "model-image": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL of the model image"
+          },
+          "garment-image": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL of the garment image"
+          },
+          "category": {
+            "type": "string",
+            "description": "Category of garments",
+            "enum": ["auto", "tops", "bottoms", "one-pieces"],
+            "default": "auto"
+          },
+          "mode": {
+            "type": "string",
+            "description": "Speed vs quality preset",
+            "enum": ["balanced", "performance", "quality"],
+            "default": "balanced"
+          },
+          "moderation_level": {
+            "type": "string",
+            "description": "Content safety filter",
+            "enum": ["conservative", "permissive", "none"],
+            "default": "permissive"
+          },
+          "segmentation_free": {
+            "type": "boolean",
+            "description": "Skip clothing removal"
+          },
+          "output_format": {
+            "type": "string",
+            "description": "Image encoding for output",
+            "enum": ["png", "jpeg"],
+            "default": "png"
+          }
+        },
+        "required": ["user-id", "client-id", "usecase-id", "model-image", "garment-image", "category"]
+      },
+      "VirtualTryonResponse": {
+        "type": "object",
+        "properties": {
+          "request-id": {
+            "type": "string",
+            "description": "Unique identifier of the Virtual Tryon request"
+          },
+          "status": {
+            "type": "string",
+            "description": "Status of the Virtual Tryon request",
+            "enum": ["SUCCESS", "FAILURE"]
+          },
+          "generated-output": {
+            "type": "string",
+            "format": "uri",
+            "description": "S3 URL of the generated output image"
+          }
+        },
+        "required": ["url"]
       },
       "VideoResponse": {
         "type": "object",
