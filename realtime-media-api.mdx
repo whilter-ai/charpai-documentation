@@ -7,9 +7,25 @@ sidebar_position: 3
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Realtime Media API – Overview
+# Overview
 
 Whilter.AI’s **Realtime Media API** allows client systems (like chatbots or apps) to trigger personalized video generation dynamically. This API is optimized for rapid, transactional media creation based on real-time user input or actions.
+
+```mermaid
+
+sequenceDiagram
+    participant WhatsApp Chatbot
+    participant Client/Vendor Application
+    participant Whilter.AI
+ 
+    WhatsApp Chatbot->>Client/Vendor Application: Conversation Start ongoing...
+    Client/Vendor Application-->>WhatsApp Chatbot: ...closure with enough inputs (text/image/video)
+ 
+    Client/Vendor Application->>Whilter.AI: Get Token
+    Whilter.AI-->>Client/Vendor Application: Token
+ 
+    Client/Vendor Application->>Whilter.AI: Send Video Create Request
+```
 
 ---
 

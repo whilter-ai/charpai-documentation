@@ -14,6 +14,22 @@ Whilter.AI’s **Batch Media API** enables clients to process and deliver large-
 
 ## High-Level Integration Flow
 
+```mermaid
+
+sequenceDiagram
+    participant Client
+    participant Whilter
+
+    Client->>Whilter: Upload Data Sheet to S3
+    Client->>Whilter: Notify to Whilter with Task API
+    Whilter->>Whilter: Read Data and Start Process
+    Whilter->>Client: Fetch Media Files from given URLs
+    Whilter->>Whilter: Generate Personalized Media
+    Whilter->>Whilter: Store Video in S3 (Active for 30 days)
+    Whilter->>Whilter: Update CSV with Video Links and store in S3
+    Whilter->>Client: Notify client with given callback API
+```
+
 The batch execution flow consists of the following 5 simple steps:
 
 ### Step 1: Prepare Your Data Sheet
