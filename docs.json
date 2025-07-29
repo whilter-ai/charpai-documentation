@@ -24,7 +24,7 @@
             "pages": [
               "introduction",
               "api_overview",
-              "batch-media-generation-api",
+              "batch-media-api",
               "realtime-media-api"
             ]
           }
