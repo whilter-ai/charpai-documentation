@@ -21,7 +21,12 @@
         "groups": [
           {
             "group": "Get Started",
-            "pages": ["introduction", "api_overview"]
+            "pages": [
+              "introduction",
+              "api_overview",
+              "batch-media-generation-api",
+              "realtime-media-api"
+            ]
           }
         ]
       },
@@ -30,7 +35,9 @@
         "groups": [
           {
             "group": "API Documentation",
-            "pages": ["api-reference/introduction"]
+            "pages": [
+              "api-reference/introduction"
+            ]
           },
           {
             "group": "Vendor API",
@@ -39,7 +46,6 @@
               "api-reference/vendor-api/create-vendor",
               "api-reference/vendor-api/update-vendor-plan",
               "api-reference/vendor-api/update-vendor"
-
             ]
           },
           {
