@@ -19,12 +19,17 @@ sequenceDiagram
     participant Whilter.AI
  
     WhatsApp Chatbot->>Client/Vendor Application: Conversation Start ongoing...
-    Client/Vendor Application-->>WhatsApp Chatbot: ...closure with enough inputs (text/image/video)
+    Note right of WhatsApp Chatbot: ...closure with enough inputs (text/image/video)
  
     Client/Vendor Application->>Whilter.AI: Get Token
     Whilter.AI-->>Client/Vendor Application: Token
  
     Client/Vendor Application->>Whilter.AI: Send Video Create Request
+    Note right of Whilter.AI: Video Generation
+ 
+    Whilter.AI-->>Client/Vendor Application: Call Webhook API (with Video URL)
+ 
+    Client/Vendor Application->>WhatsApp Chatbot: Send WhatsApp Message with Video Embedded
 ```
 
 ---
