@@ -1742,7 +1742,7 @@
             "description": "URL of the model image"
           },
           "garment-image": {
-            "type": "string",
+            "type": "array",
             "format": "uri",
             "description": "URL of the garment image"
           },
