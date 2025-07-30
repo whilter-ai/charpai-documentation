@@ -1,0 +1,116 @@
+---
+title: Virtual TryOn API Overview
+---
+
+import Image from 'next/image'
+
+# Overview
+
+The Virtual TryOn API provides developers with the capability to integrate our try-on model directly into their applications. Built on a RESTful architecture, it currently supports only HTTP endpoints.
+
+## Base URL
+
+The base URL for the Virtual TryOn API is:
+
+```bash
+https://api.whilter.ai/vton/request
+```
+
+[Go to the API reference](/api-reference/virtual-tryon-api/tryon-request)
+
+## Authentication
+
+Access to the Virtual TryOn API is secured through the use of API keys.
+
+### API Key Usage
+
+Include your API key in the request headers:
+
+```http
+Authorization: Bearer YOUR_API_KEY
+```
+
+## Error Handling
+
+The API uses conventional HTTP response codes to indicate success or failure:
+
+| Code | Description                                      |
+| ---- | ------------------------------------------------ |
+| 200  | Success - Request completed successfully         |
+| 400  | Bad Request - Invalid parameters or missing data |
+| 401  | Unauthorized - Invalid or missing API key        |
+
+---
+
+# API Parameters Guide
+
+## Model Image
+
+**image URL | base64**
+
+`model-image` refers to the source image of the individual on whom the virtual try-on will be applied. This image can be submitted either as a publicly accessible URL or a base64-encoded string.
+
+## Garment Image
+
+**image URL | base64**
+
+`garment-image` is the visual representation of the clothing item intended for virtual try-on with the `model-image`. You can provide this input either as a direct image URL or as a base64-encoded string.
+
+Virtual Tryon accepts multiple garment photo formats including flat-lay, ghost mannequin, or model-worn images.
+
+**Garment Fit Examples**
+
+## Category
+
+**string**
+
+`category` identifies the type of garment present in the `garment-image`. This guides the virtual try-on engine in selecting the appropriate region to apply the clothing. For images with multiple items (e.g., top and bottom), use this to prioritize the desired garment.
+
+Default: `auto` — automatically infers the garment type.
+
+| Value      | Description                                   |
+| ---------- | --------------------------------------------- |
+| auto       | Automatically determines the garment category |
+| tops       | Shirts, blouses, t-shirts                     |
+| bottoms    | Pants, jeans, skirts                          |
+| one-pieces | Dresses, jumpsuits                            |
+
+## Mode
+
+**string**
+
+`mode` determines the balance between processing speed and output quality.
+
+| Mode        | Description                                                        |
+| ----------- | ------------------------------------------------------------------ |
+| performance | Optimized for speed; fastest response time (~2-3s)                |
+| balanced    | A compromise between speed and quality (~3-5s)                    |
+| quality     | Prioritizes high-quality results; takes longer to process (~5-8s) |
+
+## Moderation Level
+
+**'conservative' | 'permissive' | 'none'**
+
+`moderation_level` controls how strictly the API filters garment images for content sensitivity. The default is `permissive`.
+
+- `conservative`: Filters out revealing garments. Recommended for modesty-sensitive use cases.
+- `permissive`: Allows most garments including swimwear and underwear, while rejecting explicit nudity.
+- `none`: Disables all content filtering. Use with caution.
+
+## Segmentation Free
+
+**boolean**
+
+`segmentation_free` controls whether the system skips explicit garment segmentation.
+
+- `true`: Enables direct garment fitting without isolating clothing.
+- `false`: Enforces clothing segmentation. Use if artifacts from the original garments interfere with results.
+
+## Output Format
+
+**'png' | 'jpeg'**
+
+`output_format` defines the desired image format for the generated try-on result.
+
+- `png`: High-quality output with no compression loss.
+- `jpeg`: Faster response with mild compression. Better for real-time use.
