@@ -23,7 +23,6 @@
             "group": "Get Started",
             "pages": [
               "introduction",
-              "api_overview",
               "batch-media-api",
               "realtime-media-api",
               "virtual_tryon_api"
