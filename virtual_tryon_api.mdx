@@ -50,11 +50,15 @@ The API uses conventional HTTP response codes to indicate success or failure:
 
 `model-image` refers to the source image of the individual on whom the virtual try-on will be applied. This image can be submitted either as a publicly accessible URL or a base64-encoded string.
 
+<img src="/images/model-image.webp" alt="Model Image Example" />
+
 ## Garment Image
 
 **image URL | base64**
 
 `garment-image` is the visual representation of the clothing item intended for virtual try-on with the `model-image`. You can provide this input either as a direct image URL or as a base64-encoded string.
+
+<img src="/images/garment.webp" alt="Garment Image Example" />
 
 Virtual Tryon accepts multiple garment photo formats including flat-lay, ghost mannequin, or model-worn images.
 
@@ -74,6 +78,12 @@ Default: `auto` — automatically infers the garment type.
 | tops       | Shirts, blouses, t-shirts                     |
 | bottoms    | Pants, jeans, skirts                          |
 | one-pieces | Dresses, jumpsuits                            |
+
+<img
+  src="/images/category-image.webp"
+  alt="Garment Photography Quality Spectrum"
+/>
+---
 
 ## Mode
 
