@@ -8,9 +8,7 @@
     },
     "version": "1.0.0"
   },
-  "servers": [
-    { "url": "https://api.charp.ai"}
-  ],
+  "servers": [{ "url": "https://api-host" }],
   "security": [
     {
       "bearerAuth": []
@@ -18,9 +16,6 @@
   ],
   "paths": {
     "/vton/request": {
-      "servers": [                     
-        { "url": "https://api.whilter.ai" }
-      ],
       "post": {
         "description": "Create Virtual Tryon Request",
         "requestBody": {
@@ -59,9 +54,6 @@
       }
     },
     "/vton/status/{requestId}": {
-      "servers": [                     
-        { "url": "https://api.whilter.ai" }
-      ],
       "get": {
         "description": "Get Virtual Tryon Status",
         "parameters": [
@@ -81,7 +73,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/VirtualTryonResponse" 
+                  "$ref": "#/components/schemas/VirtualTryonResponse"
                 }
               }
             }
@@ -146,7 +138,14 @@
             "default": "png"
           }
         },
-        "required": ["user-id", "client-id", "usecase-id", "model-image", "garment-image", "category"]
+        "required": [
+          "user-id",
+          "client-id",
+          "usecase-id",
+          "model-image",
+          "garment-image",
+          "category"
+        ]
       },
       "VirtualTryonResponse": {
         "type": "object",
@@ -189,7 +188,7 @@
             "type": "string",
             "description": "Error message"
           }
-        },  
+        },
         "required": ["status_code", "message"]
       }
     },
