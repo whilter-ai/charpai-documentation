@@ -35,8 +35,13 @@
         "groups": [
           {
             "group": "API Documentation",
+            "pages": ["api-reference/introduction"]
+          },
+          {
+            "group": "Virtual Tryon Apparel API",
             "pages": [
-              "api-reference/introduction"
+              "api-reference/virtual-tryon-api/tryon-request",
+              "api-reference/virtual-tryon-api/get-tryon-status"
             ]
           },
           {
@@ -88,13 +93,6 @@
               "api-reference/tools/get-generated-lip-sync",
               "api-reference/tools/generate-face-swap",
               "api-reference/tools/get-generated-face-swap"
-            ]
-          },
-          {
-            "group": "Virtual Tryon Apparel API",
-            "pages": [
-              "api-reference/virtual-tryon-api/tryon-request",
-              "api-reference/virtual-tryon-api/get-tryon-status"
             ]
           }
         ]
