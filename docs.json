@@ -51,6 +51,13 @@
               "api-reference/batch-media-api/cancel-batch-task",
               "api-reference/batch-media-api/check-status"
             ]
+          },
+          {
+            "group": "Reatime Media API",
+            "pages": [
+              "api-reference/realtime-media-api/create-realtime-task",
+              "api-reference/realtime-media-api/check-status"
+            ]
           }
         ]
       }

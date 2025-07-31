@@ -2,22 +2,100 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Charp.ai API",
-    "description": "API ecosystem for vendor management, authentication, campaign management, and tools for enhancing campaign execution",
+    "description": "API ecosystem for vendor management, authentication, campaign management, and tools for enhancing campaign execution including realtime media generation",
     "license": {
       "name": "MIT"
     },
     "version": "1.0.0"
   },
-  "servers": [{ "url": "https://api-host" }],
+  "servers": [{ "url": "https://whilter-api-host" }],
   "security": [
     {
       "bearerAuth": []
     }
   ],
   "paths": {
+    "/video/demo": {
+      "post": {
+        "summary": "Trigger New Video Generation",
+        "description": "Create a personalized video generation request in real-time",
+        "operationId": "createVideoRequest",
+        "tags": ["Realtime Media"],
+        "security": [
+          {
+            "apiKeyAuth": []
+          },
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VideoGenerationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Video generation request accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VideoGenerationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/status/{transactionId}": {
+      "get": {
+        "summary": "Check Video Status",
+        "description": "Retrieve the current status and URLs of a video generation request",
+        "operationId": "getVideoStatus",
+        "tags": ["Realtime Media"],
+        "security": [
+          {
+            "apiKeyAuth": []
+          },
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "transactionId",
+            "in": "path",
+            "required": true,
+            "description": "The Whilter request ID returned from video generation request",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Video status retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VideoStatusResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/vton/request": {
       "post": {
         "description": "Create Virtual Tryon Request",
+        "tags": ["Virtual Try-On"],
         "requestBody": {
           "description": "Virtual Tryon request parameters",
           "content": {
@@ -45,7 +123,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -56,6 +134,7 @@
     "/vton/status/{requestId}": {
       "get": {
         "description": "Get Virtual Tryon Status",
+        "tags": ["Virtual Try-On"],
         "parameters": [
           {
             "name": "requestId",
@@ -187,7 +266,178 @@
     }
   },
   "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "apiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-api-key"
+      }
+    },
     "schemas": {
+      "VideoGenerationRequest": {
+        "type": "object",
+        "properties": {
+          "client-request-id": {
+            "type": "string",
+            "description": "Unique identifier for the client request"
+          },
+          "customer-id": {
+            "type": "string",
+            "description": "Customer identifier"
+          },
+          "use-case-id": {
+            "type": "string",
+            "description": "Template identifier for the video generation use case"
+          },
+          "user-id": {
+            "type": "string",
+            "description": "User identifier"
+          },
+          "reference-record-id": {
+            "type": "string",
+            "description": "Optional reference record identifier"
+          },
+          "phrase-texts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Array of text phrases to be used in video generation"
+          },
+          "image-texts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Array of image-related text content"
+          },
+          "video-texts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Array of video-related text content"
+          },
+          "image-urls": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "description": "Array of image URLs to be used in video generation"
+          },
+          "video-urls": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "description": "Array of video URLs to be used in video generation"
+          }
+        },
+        "required": [
+          "client-request-id",
+          "customer-id",
+          "use-case-id",
+          "user-id"
+        ]
+      },
+      "VideoGenerationResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["SUCCESS", "FAILURE"],
+            "description": "Status of the video generation request"
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message",
+            "example": "Request accepted"
+          },
+          "client-request-id": {
+            "type": "string",
+            "description": "The original client request identifier"
+          },
+          "whilter-request-id": {
+            "type": "string",
+            "description": "Generated request identifier for tracking"
+          }
+        },
+        "required": [
+          "status",
+          "message",
+          "client-request-id",
+          "whilter-request-id"
+        ]
+      },
+      "VideoStatusResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["SUCCESS", "FAILURE", "PROCESSING"],
+            "description": "Current status of the video generation"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true,
+            "description": "Status message or error details"
+          },
+          "video-url": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true,
+            "description": "URL of the generated video (null if not ready)"
+          },
+          "image-url": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true,
+            "description": "URL of the generated thumbnail image"
+          }
+        },
+        "required": ["status"]
+      },
+      "WebhookVideoNotification": {
+        "type": "object",
+        "properties": {
+          "client-request-id": {
+            "type": "string",
+            "description": "Original client request identifier"
+          },
+          "user-id": {
+            "type": "string",
+            "description": "User identifier"
+          },
+          "video-url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL of the completed video"
+          }
+        },
+        "required": ["client-request-id", "user-id", "video-url"]
+      },
+      "WebhookResponse": {
+        "type": "object",
+        "properties": {
+          "client-request-id": {
+            "type": "string",
+            "description": "Acknowledged client request identifier"
+          },
+          "status": {
+            "type": "string",
+            "description": "Response status code",
+            "example": "202"
+          }
+        },
+        "required": ["client-request-id", "status"]
+      },
       "VirtualTryonRequest": {
         "type": "object",
         "properties": {
@@ -449,6 +699,22 @@
     }
   },
   "tags": [
+    {
+      "name": "Authentication",
+      "description": "Operations related to API authentication"
+    },
+    {
+      "name": "Realtime Media",
+      "description": "Operations for generating personalized videos in real-time"
+    },
+    {
+      "name": "Webhooks",
+      "description": "Webhook endpoints for receiving notifications"
+    },
+    {
+      "name": "Virtual Try-On",
+      "description": "Operations related to virtual try-on functionality"
+    },
     {
       "name": "Tasks",
       "description": "Operations related to task management"
