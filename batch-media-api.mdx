@@ -3,8 +3,8 @@ title: Batch Media API
 description: Overview and integration guide for Whilter.AI's Batch Media API
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
 # Overview
 
@@ -35,6 +35,7 @@ The batch execution flow consists of the following 5 simple steps:
 ### Step 1: Prepare Your Data Sheet
 
 Prepare a CSV file containing:
+
 - A **unique identifier** (e.g., phone number or customer ID)
 - Additional fields for **personalization**
 
@@ -50,7 +51,7 @@ Use the following naming conventions based on priority:
 - **Normal Priority Campaign:**  
   `WhilterTemplateID_CustomerDefinedCampaignName.zip`
 
-> *Make sure to compress the CSV as a ZIP file before uploading.*
+> _Make sure to compress the CSV as a ZIP file before uploading._
 
 ---
 
@@ -71,6 +72,7 @@ POST https://<whilter-api-host>/<client>/task
 ```
 
 #### Request Headers:
+
 ```json
 {
   "Authorization": "Bearer <access-token>",
@@ -79,6 +81,7 @@ POST https://<whilter-api-host>/<client>/task
 ```
 
 #### Request Body:
+
 ```json
 {
   "client-id": "string",
@@ -92,6 +95,7 @@ POST https://<whilter-api-host>/<client>/task
 ```
 
 #### Sample Response:
+
 ```json
 {
   "client-id": "string",
@@ -115,6 +119,7 @@ GET https://<whilter-api-host>/<client>/task/status/<task-id>
 ```
 
 #### Request Headers:
+
 ```json
 {
   "Authorization": "Bearer <access-token>"
@@ -122,6 +127,7 @@ GET https://<whilter-api-host>/<client>/task/status/<task-id>
 ```
 
 #### Sample Response:
+
 ```json
 {
   "task-id": "string",
@@ -133,9 +139,52 @@ GET https://<whilter-api-host>/<client>/task/status/<task-id>
 ```
 
 > The output file will mirror your input CSV but with two additional columns:
-> - `media-url`: Link to the generated media  
+>
+> - `media-url`: Link to the generated media
 > - `error`: If generation failed for a row
 
+---
+
+Here’s the updated `.mdx` content with the **Cancel Task API** section added in the appropriate format, following the existing style:
+
+---
+
+### Step 6: Cancel a Task (Optional)
+
+If you need to cancel a previously triggered task (for example, due to incorrect data or a campaign change), use the following API.
+
+#### **POST** `/image/task/cancel/{taskId}`
+
+```http
+POST https://<whilter-api-host>/image/task/cancel/{taskId}
+```
+
+#### Path Parameter:
+
+| Name   | Type   | Description                                 |
+| ------ | ------ | ------------------------------------------- |
+| taskId | string | The unique identifier of the task to cancel |
+
+#### Request Headers:
+
+```json
+{
+  "Authorization": "Bearer <access-token>",
+  "Content-Type": "application/json"
+}
+```
+
+#### Sample Response:
+
+```json
+{
+  "client-id": "string",
+  "campaign-id": "string",
+  "template-id": "string",
+  "task-id": "string",
+  "message": "Task cancelled successfully"
+}
+```
 ---
 
 ## Callback Support
