@@ -4,8 +4,8 @@ description: Generate personalized videos in real-time via Whilter.AI API
 sidebar_position: 3
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
 # Overview
 
@@ -17,18 +17,18 @@ sequenceDiagram
     participant WhatsApp Chatbot
     participant Client/Vendor Application
     participant Whilter.AI
- 
+
     WhatsApp Chatbot->>Client/Vendor Application: Conversation Start ongoing...
     Note right of WhatsApp Chatbot: ...closure with enough inputs (text/image/video)
- 
+
     Client/Vendor Application->>Whilter.AI: Get Token
     Whilter.AI-->>Client/Vendor Application: Token
- 
+
     Client/Vendor Application->>Whilter.AI: Send Video Create Request
     Note right of Whilter.AI: Video Generation
- 
+
     Whilter.AI-->>Client/Vendor Application: Call Webhook API (with Video URL)
- 
+
     Client/Vendor Application->>WhatsApp Chatbot: Send WhatsApp Message with Video Embedded
 ```
 
@@ -47,6 +47,7 @@ GET https://<API-Host>/getToken?clientId=<clientId>&clientSecret=<clientSecret>
 > Request must be made from a **whitelisted IP**.
 
 **Sample Response:**
+
 ```json
 {
   "access_token": "<token_value>",
@@ -66,10 +67,12 @@ POST https://<API-Host>/video/demo
 ```
 
 **Headers:**
+
 - `x-api-key: <provided-api-key>`
 - `Authorization: Bearer <access_token>`
 
 **Request Body:**
+
 ```json
 {
   "client-request-id": "unique-id",
@@ -86,6 +89,7 @@ POST https://<API-Host>/video/demo
 ```
 
 **Response:**
+
 ```json
 {
   "status": "SUCCESS",
@@ -106,10 +110,12 @@ GET https://<API-Host>/status/<transaction-id>
 ```
 
 **Headers:**
+
 - `x-api-key: <provided-api-key>`
 - `Authorization: Bearer <access_token>`
 
 **Response:**
+
 ```json
 {
   "status": "SUCCESS",
@@ -138,6 +144,7 @@ You may provide a webhook endpoint to receive video URLs automatically when the 
 ```
 
 **Suggested Response:**
+
 ```json
 {
   "client-request-id": "unique-id",
@@ -149,11 +156,16 @@ You may provide a webhook endpoint to receive video URLs automatically when the 
 
 ## Error Handling
 
-| Error Code | Description                    | Suggested Action                       |
-|------------|--------------------------------|----------------------------------------|
-| 400        | Bad Request                    | Check input JSON or parameters         |
-| 404        | Endpoint Not Found             | Check API URL                          |
-| 500        | Server Error                   | Retry after some time or contact support |
+| Error Code | Description        | Suggested Action                         |
+| ---------- | ------------------ | ---------------------------------------- |
+| 400        | Bad Request        | Check input JSON or parameters           |
+| 404        | Endpoint Not Found | Check API URL                            |
+| 500        | Server Error       | Retry after some time or contact support |
+
+## API Reference
+
+To explore detailed endpoints and example requests,
+see the [Realtime Media API references](/api-reference/realtime-media-api/create-realtime-task).
 
 ---
 
