@@ -80,6 +80,110 @@
           }
         }
       }
+    },
+    "/image/task/create": {
+      "post": {
+        "summary": "Create a new task",
+        "description": "Creates a new image processing task with specified parameters",
+        "operationId": "createTask",
+        "tags": ["Tasks"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTaskRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Task created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateTaskResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/image/task/cancel/{taskId}": {
+      "post": {
+        "summary": "Cancel a task",
+        "description": "Cancels an existing task by its ID",
+        "operationId": "cancelTask",
+        "tags": ["Tasks"],
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the task to cancel",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Task cancelled successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CancelTaskResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid task ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/image/task/status/{taskId}": {
+      "get": {
+        "summary": "Check task status",
+        "description": "Retrieves the current status of a task by its ID",
+        "operationId": "getTaskStatus",
+        "tags": ["Tasks"],
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the task to check",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Task status retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStatusResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -177,28 +281,177 @@
         },
         "required": ["request-id"]
       },
-      "Error": {
+      "CreateTaskRequest": {
+        "type": "object",
+        "required": [
+          "client-id",
+          "campaign-id",
+          "template-id",
+          "file-name",
+          "file-path",
+          "priority"
+        ],
+        "properties": {
+          "client-id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique identifier for the client"
+          },
+          "campaign-id": {
+            "type": "string",
+            "description": "Identifier for the campaign"
+          },
+          "template-id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique identifier for the template to use"
+          },
+          "file-name": {
+            "type": "string",
+            "description": "Name of the file to process"
+          },
+          "file-path": {
+            "type": "string",
+            "description": "S3 path to the input file"
+          },
+          "row-count": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Number of rows to process"
+          },
+          "expected-output-duration": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Expected duration for output generation (in minutes)"
+          },
+          "priority": {
+            "type": "integer",
+            "description": "Task priority level"
+          }
+        }
+      },
+      "CreateTaskResponse": {
         "type": "object",
         "properties": {
-          "status_code": {
-            "type": "integer",
-            "description": "HTTP status code"
+          "client-id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique identifier for the client"
+          },
+          "campaign-id": {
+            "type": "string",
+            "description": "Identifier for the campaign"
+          },
+          "template-id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique identifier for the template to use"
+          },
+          "task-id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique identifier for the created task"
           },
           "message": {
             "type": "string",
-            "description": "Error message"
+            "description": "Task created successfully"
           }
-        },
-        "required": ["status_code", "message"]
-      }
-    },
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT",
-        "description": "Bearer token authentication using OAuth2 access token"
+        }
+      },
+      "CancelTaskResponse": {
+        "type": "object",
+        "properties": {
+          "client-id": {
+            "type": "string",
+            "description": "Client ID provided during vendor onboarding"
+          },
+          "campaign-id": {
+            "type": "string",
+            "description": "Identifier for the campaign"
+          },
+          "template-id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique identifier for the template to use"
+          },
+          "task-id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique identifier for the created task"
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message",
+            "example": "Task cancelled successfully"
+          }
+        }
+      },
+      "TaskStatusResponse": {
+        "type": "object",
+        "properties": {
+          "task-id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique identifier of the task"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["COMPLETED", "PENDING", "IN PROGRESS", "FAILED"],
+            "description": "Current status of the task"
+          },
+          "file-path": {
+            "type": "string",
+            "nullable": true,
+            "description": "S3 path to the output file (available when completed)"
+          },
+          "total-count": {
+            "type": "integer",
+            "description": "Total Number of records",
+            "example": 100000
+          },
+          "processed": {
+            "type": "integer",
+            "description": "Number of tasks processed",
+            "example": 100000
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "boolean",
+            "description": "Indicates an error occurred",
+            "example": true
+          },
+          "message": {
+            "type": "string",
+            "description": "Error message",
+            "example": "Invalid authentication token"
+          },
+          "code": {
+            "type": "string",
+            "description": "Error code",
+            "example": "UNAUTHORIZED"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the error occurred",
+            "example": "2025-01-27T10:30:46Z"
+          }
+        }
       }
     }
-  }
+  },
+  "tags": [
+    {
+      "name": "Tasks",
+      "description": "Operations related to task management"
+    }
+  ]
 }
