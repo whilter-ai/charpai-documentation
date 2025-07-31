@@ -43,6 +43,14 @@
               "api-reference/virtual-tryon-api/tryon-request",
               "api-reference/virtual-tryon-api/get-tryon-status"
             ]
+          },
+          {
+            "group": "Batch Media API",
+            "pages": [
+              "api-reference/batch-media-api/create-batch-task",
+              "api-reference/batch-media-api/cancel-batch-task",
+              "api-reference/batch-media-api/check-status"
+            ]
           }
         ]
       }
